@@ -10,9 +10,15 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.2",
+    "@neondatabase/serverless": "^0.10.4",
+    "drizzle-orm": "^0.40.0",
+    "neon": "^2.0.0",
     "next": "15.2.0",
+    "pg": "^8.13.3",
+    "postgres": "^3.4.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
