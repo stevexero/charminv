@@ -3,13 +3,12 @@ import { db } from '@/lib/db';
 import { categories } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
 
-// ✅ Ensure the function signature follows Next.js 15+ API rules
 export async function PATCH(
   req: NextRequest,
-  context: { params: Record<string, string> } // ✅ Correct way to type params
+  { params }: { params: { id: string } } // Explicitly type params with `id`
 ) {
   try {
-    const { id } = context.params; // ✅ Extract id correctly
+    const { id } = params; // Extract id from params
 
     const { image_url, localUpdatedAt } = await req.json();
     const updatedAtUTC = localUpdatedAt ? new Date(localUpdatedAt) : new Date();
