@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 import { categories } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
 
-export async function PATCH(req: Request, context: { params: { id: string } }) {
+export async function PATCH(req: Request, context: any) {
   try {
     const { params } = context; // ✅ Extract params correctly
     const { id } = params; // ✅ Extract id separately
