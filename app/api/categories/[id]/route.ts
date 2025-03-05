@@ -3,13 +3,12 @@ import { db } from '@/lib/db';
 import { categories } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(req: Request, context: { params: { id: string } }) {
   try {
-    const { image_url, localUpdatedAt } = await req.json();
+    const { params } = context; // ✅ Extract params correctly
+    const { id } = params; // ✅ Extract id separately
 
+    const { image_url, localUpdatedAt } = await req.json();
     const updatedAtUTC = localUpdatedAt ? new Date(localUpdatedAt) : new Date();
 
     if (!image_url) {
@@ -22,7 +21,7 @@ export async function PATCH(
     await db
       .update(categories)
       .set({ image_url, updated_at: updatedAtUTC })
-      .where(eq(categories.id, params.id))
+      .where(eq(categories.id, id))
       .execute();
 
     return NextResponse.json(
