@@ -3,15 +3,12 @@ import { db } from '@/lib/db';
 import { categories } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
 
-interface Context {
-  params: {
-    id: string;
-  };
-}
-
-export async function PATCH(req: NextRequest, context: Context) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: string } } // ✅ Correct way to define params
+) {
   try {
-    const { id } = context.params; // ✅ Extract id separately
+    const { id } = params; // ✅ Extract id correctly
 
     const { image_url, localUpdatedAt } = await req.json();
     const updatedAtUTC = localUpdatedAt ? new Date(localUpdatedAt) : new Date();
