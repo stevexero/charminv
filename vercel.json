@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/reset-items",
-      "schedule": "20 0 * * *"
+      "schedule": "55 8 * * *"
     }
   ]
 }

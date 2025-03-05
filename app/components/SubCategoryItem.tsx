@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface SubcategoryItemProps {
   id: string;
@@ -17,6 +17,16 @@ export default function SubcategoryItem({
 }: SubcategoryItemProps) {
   const [inCount, setInCount] = useState(inDay);
   const [outCount, setOutCount] = useState(outDay);
+  const [resetTime, setResetTime] = useState('');
+
+  useEffect(() => {
+    const today = new Date();
+    today.setHours(24, 0, 0, 0); // Midnight reset
+
+    setResetTime(
+      today.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    );
+  }, []);
 
   const updateItem = async (type: 'in' | 'out', increment: number) => {
     const newValue = type === 'in' ? inCount + increment : outCount + increment;
@@ -66,6 +76,7 @@ export default function SubcategoryItem({
           <span>{outCount} out</span>
         </div>
       </div>
+      <p className='text-gray-400 text-xs'>Resets at {resetTime}</p>
     </li>
   );
 }
