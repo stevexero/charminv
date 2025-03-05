@@ -1,12 +1,17 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { db } from '@/lib/db';
 import { categories } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
 
-export async function PATCH(req: Request, context: any) {
+interface Context {
+  params: {
+    id: string;
+  };
+}
+
+export async function PATCH(req: NextRequest, context: Context) {
   try {
-    const { params } = context; // ✅ Extract params correctly
-    const { id } = params; // ✅ Extract id separately
+    const { id } = context.params; // ✅ Extract id separately
 
     const { image_url, localUpdatedAt } = await req.json();
     const updatedAtUTC = localUpdatedAt ? new Date(localUpdatedAt) : new Date();
