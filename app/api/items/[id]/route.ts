@@ -5,13 +5,12 @@ import { eq } from 'drizzle-orm';
 
 export async function PATCH(
   req: Request,
-  { params }: { params: Promise<{ id: string }> } // Destructure here
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
     const { in_day, out_day } = await req.json();
 
-    // Validate request
     if (in_day === undefined && out_day === undefined) {
       return NextResponse.json(
         { error: 'Missing in_day or out_day' },
@@ -19,9 +18,10 @@ export async function PATCH(
       );
     }
 
-    // Fetch current weekly counts
     const existingItem = await db
       .select({
+        in_day: items.in_day,
+        out_day: items.out_day,
         in_week: items.in_week,
         out_week: items.out_week,
       })
@@ -33,20 +33,26 @@ export async function PATCH(
       return NextResponse.json({ error: 'Item not found' }, { status: 404 });
     }
 
-    const { in_week, out_week } = existingItem[0];
+    const {
+      in_day: currentInDay,
+      out_day: currentOutDay,
+      in_week,
+      out_week,
+    } = existingItem[0];
 
-    // Update daily and weekly counts
+    const inDifference = in_day - currentInDay;
+    const outDifference = out_day - currentOutDay;
+
+    const newInWeek = in_week + Math.max(inDifference, 0);
+    const newOutWeek = out_week + Math.max(outDifference, 0);
+
     await db
       .update(items)
       .set({
-        ...(in_day !== undefined && {
-          in_day,
-          in_week: in_week + in_day,
-        }),
-        ...(out_day !== undefined && {
-          out_day,
-          out_week: out_week + out_day,
-        }),
+        in_day,
+        out_day,
+        in_week: newInWeek,
+        out_week: newOutWeek,
       })
       .where(eq(items.id, id))
       .execute();
