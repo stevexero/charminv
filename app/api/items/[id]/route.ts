@@ -41,11 +41,11 @@ export async function PATCH(
       .set({
         ...(in_day !== undefined && {
           in_day,
-          in_week: in_week + (in_day - existingItem[0].in_week), // Ensure the correct weekly count
+          in_week: in_week + in_day,
         }),
         ...(out_day !== undefined && {
           out_day,
-          out_week: out_week + (out_day - existingItem[0].out_week),
+          out_week: out_week + out_day,
         }),
       })
       .where(eq(items.id, id))
