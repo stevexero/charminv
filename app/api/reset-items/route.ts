@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 import { items } from '@/lib/schema';
 
 // Runs at midnight to reset counts
-export async function POST() {
+export async function GET() {
   try {
     await db
       .update(items)
