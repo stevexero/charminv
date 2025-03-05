@@ -8,7 +8,10 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { image_url } = await req.json();
+    const { image_url, localUpdatedAt } = await req.json();
+
+    const updatedAtUTC = localUpdatedAt ? new Date(localUpdatedAt) : new Date();
+
     if (!image_url) {
       return NextResponse.json(
         { error: 'Image URL is required' },
@@ -16,10 +19,9 @@ export async function PATCH(
       );
     }
 
-    // Update category image in the database
     await db
       .update(categories)
-      .set({ image_url })
+      .set({ image_url, updated_at: updatedAtUTC })
       .where(eq(categories.id, params.id))
       .execute();
 

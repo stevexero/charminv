@@ -24,21 +24,21 @@ export default function ImagePicker({ onSelect, onClose }: ImagePickerProps) {
   return (
     <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
       <div className='bg-white p-4 rounded-lg w-96'>
-        <h2 className='text-xl font-bold mb-2'>Select an Image</h2>
+        <h2 className='text-xl font-bold mb-2 text-black'>Select an Image</h2>
         <input
           type='text'
           placeholder='Search for images...'
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className='w-full p-2 border rounded mb-2'
+          className='w-full p-2 border rounded mb-2 text-slate-700'
         />
         <button
           onClick={fetchImages}
-          className='w-full p-2 bg-blue-600 text-white rounded mb-2'
+          className='w-full p-2 bg-blue-600 text-white rounded mb-2 cursor-pointer'
         >
           Search
         </button>
-        {loading && <p>Loading...</p>}
+        {loading && <p className='text-slate-700'>Loading...</p>}
         <div className='grid grid-cols-3 gap-2'>
           {images.map((img, index) => (
             <Image
@@ -54,7 +54,7 @@ export default function ImagePicker({ onSelect, onClose }: ImagePickerProps) {
         </div>
         <button
           onClick={onClose}
-          className='w-full p-2 bg-gray-300 text-black rounded mt-2'
+          className='w-full p-2 bg-gray-300 text-black rounded mt-2 cursor-pointer'
         >
           Cancel
         </button>

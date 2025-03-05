@@ -23,7 +23,7 @@ export default function AddCategory() {
 
     if (res.ok) {
       setCategoryName('');
-      router.refresh(); // Refresh UI after adding category
+      router.refresh();
     } else {
       alert('Failed to add category');
     }
@@ -32,7 +32,7 @@ export default function AddCategory() {
   };
 
   return (
-    <div className='w-56 h-56 flex flex-col items-center bg-white text-black rounded-2xl cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out'>
+    <div className='w-56 flex flex-col items-center bg-white text-black rounded-2xl cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out'>
       <div className='w-full p-2 border-b border-b-black'>
         <p className='text-center font-bold'>Add New Category</p>
       </div>
@@ -50,10 +50,17 @@ export default function AddCategory() {
         />
         <button
           type='submit'
-          className='p-2 bg-black text-white rounded-full mt-2 w-full'
+          className='p-2 bg-black text-white rounded-md mt-2 w-full flex justify-center items-center'
           disabled={loading}
         >
-          {loading ? 'Adding...' : <FaPlus size='1.5rem' />}
+          {loading ? (
+            'Adding...'
+          ) : (
+            <>
+              Add Category&nbsp;&nbsp;
+              <FaPlus />
+            </>
+          )}
         </button>
       </form>
     </div>
