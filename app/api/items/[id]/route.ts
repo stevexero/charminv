@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm';
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } } // Destructure here
+  { params }: { params: Promise<{ id: string }> } // Destructure here
 ) {
   try {
     const { id } = await params;
