@@ -34,14 +34,17 @@ export async function PATCH(
     }
 
     const {
-      in_day: currentInDay,
-      out_day: currentOutDay,
-      in_week,
-      out_week,
+      in_day: currentInDay = 0,
+      out_day: currentOutDay = 0,
+      in_week = 0,
+      out_week = 0,
     } = existingItem[0];
 
-    const inDifference = in_day - currentInDay;
-    const outDifference = out_day - currentOutDay;
+    const newInDay = typeof in_day === 'number' ? in_day : currentInDay;
+    const newOutDay = typeof out_day === 'number' ? out_day : currentOutDay;
+
+    const inDifference = newInDay - currentInDay;
+    const outDifference = newOutDay - currentOutDay;
 
     const newInWeek = in_week + Math.max(inDifference, 0);
     const newOutWeek = out_week + Math.max(outDifference, 0);
