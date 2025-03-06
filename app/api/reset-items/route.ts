@@ -16,7 +16,11 @@ const daysMap: Record<string, number> = {
 export async function GET() {
   try {
     // Get today's weekday (0 = Sunday, 1 = Monday, etc.)
-    const today = new Date().getUTCDay();
+    const now = new Date();
+    const lasVegasTime = new Date(
+      now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
+    );
+    const today = lasVegasTime.getDay();
 
     await db
       .update(items)
@@ -31,15 +35,18 @@ export async function GET() {
 
     // Check if any user's preferred week start matches today
     const shouldResetWeekly = userSettings.some((setting) => {
-      return daysMap[setting.week_start] === today;
+      const userPreferredDay = daysMap[setting.week_start.toLowerCase()]; // Convert string to number
+      return userPreferredDay === today;
     });
 
     if (shouldResetWeekly) {
       await db
         .update(items)
         .set({
+          week_start: items.week_end,
           in_week: 0,
           out_week: 0,
+          week_total_out: 0,
         })
         .execute();
 

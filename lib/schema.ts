@@ -61,6 +61,9 @@ export const items = pgTable('items', {
   out_day: integer('out_day').default(0).notNull(),
   in_week: integer('in_week').default(0).notNull(),
   out_week: integer('out_week').default(0).notNull(),
+  week_start: integer('week_start').default(0).notNull(),
+  week_end: integer('week_end').default(0).notNull(),
+  week_total_out: integer('week_total_out').default(0).notNull(),
   created_at: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),

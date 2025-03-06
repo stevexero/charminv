@@ -1,22 +1,26 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { items } from '@/lib/schema';
-// import { eq } from 'drizzle-orm';
 
 export async function POST(req: Request) {
   try {
-    const { name, subcategory_id } = await req.json();
+    const { name, subcategory_id, week_start } = await req.json();
 
     if (!name || !subcategory_id) {
       return NextResponse.json(
-        { error: 'Item name and subcategory_id are required' },
+        { error: 'Item name, subcategory_id are required' },
         { status: 400 }
       );
     }
 
+    const initialWeekStart =
+      typeof week_start === 'number' && week_start >= 0 ? week_start : 0; // Default to 0 if invalid
+
     await db.insert(items).values({
       name,
       subcategory_id,
+      week_start: initialWeekStart,
+      week_end: initialWeekStart,
       created_at: new Date(),
       updated_at: new Date(),
     });
@@ -33,31 +37,3 @@ export async function POST(req: Request) {
     );
   }
 }
-
-// export async function GET(req: Request) {
-//   try {
-//     const { searchParams } = new URL(req.url);
-//     const subcategory_id = searchParams.get('subcategory_id');
-
-//     if (!subcategory_id) {
-//       return NextResponse.json(
-//         { error: 'subcategory_id is required' },
-//         { status: 400 }
-//       );
-//     }
-
-//     const itemList = await db
-//       .select()
-//       .from(items)
-//       .where(eq(items.subcategory_id, subcategory_id))
-//       .execute();
-
-//     return NextResponse.json({ items: itemList }, { status: 200 });
-//   } catch (error) {
-//     console.error('Error fetching items:', error);
-//     return NextResponse.json(
-//       { error: 'Internal Server Error' },
-//       { status: 500 }
-//     );
-//   }
-// }

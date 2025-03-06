@@ -91,7 +91,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
       <p className='text-gray-600 mt-2'>Manage items for {categoryInfo.name}</p>
 
-      <div className='mt-8 max-w-1/2'>
+      <div className='mt-8'>
         <h2 className='text-xl font-semibold mt-6'>Subcategories</h2>
 
         {subcategoriesData.length > 0 ? (
@@ -114,6 +114,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                           name={item.name}
                           inDay={item.in_day}
                           outDay={item.out_day}
+                          inWeek={item.in_week}
+                          outWeek={item.out_week}
+                          weekStart={item.week_start}
+                          weekEnd={item.week_end}
+                          totalOutWeek={item.week_total_out}
                         />
                       ))}
                     </ul>
