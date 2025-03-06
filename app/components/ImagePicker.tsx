@@ -31,10 +31,12 @@ export default function ImagePicker({ onSelect, onClose }: ImagePickerProps) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className='w-full p-2 border rounded mb-2 text-slate-700'
+          required
         />
         <button
           onClick={fetchImages}
-          className='w-full p-2 bg-blue-600 text-white rounded mb-2 cursor-pointer'
+          className='w-full p-2 bg-black text-white rounded mb-2 cursor-pointer disabled:bg-gray-200'
+          disabled={searchTerm === ''}
         >
           Search
         </button>

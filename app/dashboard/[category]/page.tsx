@@ -127,7 +127,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   ) : (
                     <p className='text-slate-500'>No items found.</p>
                   )}
-                  <AddItemForm subcategoryId={subcategory.id} />
+                  <AddItemForm
+                    subcategoryId={subcategory.id}
+                    subCategoryName={subcategory.name}
+                  />
                 </Accordion>
               );
             })}

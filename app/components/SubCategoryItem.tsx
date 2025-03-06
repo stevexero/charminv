@@ -101,21 +101,23 @@ export default function SubcategoryItem({
   return (
     <li
       key={id}
-      className='flex justify-between items-center p-8 pb-2 text-white border border-white mt-4 bg-slate-500 rounded-md'
+      className='flex justify-between items-center p-2 text-white border border-white mt-4 bg-slate-300 rounded-md'
     >
       <div className='w-full flex flex-col'>
         {/* TOP */}
         <div className='w-full flex flex-row items-center justify-between'>
-          <div className='w-3/4'>
-            <span className='font-bold text-4xl'>{formattedName}</span>
+          <div>
+            <span className='font-bold text-4xl text-slate-700'>
+              {formattedName}
+            </span>
           </div>
 
           {/* DAILY */}
-          <div className='w-1/4 flex flex-row items-center justify-between'>
+          <div className='flex flex-row items-center justify-between'>
             {/* In Count Daily */}
             <div className='flex items-center gap-1'>
               <span
-                className='underline text-2xl'
+                className='mr-4 text-2xl shadow-2xl px-4 py-2 bg-green-900 rounded-md'
                 onClick={() => openModal('in')}
               >
                 In: {inCountDaily}
@@ -125,7 +127,7 @@ export default function SubcategoryItem({
             {/* Out Count Daily */}
             <div className='flex items-center gap-1'>
               <span
-                className='underline text-2xl'
+                className='text-2xl shadow-2xl px-4 py-2 bg-green-900 rounded-md'
                 onClick={() => openModal('out')}
               >
                 Out: {outCountDaily}
@@ -135,7 +137,7 @@ export default function SubcategoryItem({
         </div>
 
         {/* BOTTOM */}
-        <div className='w-full flex flex-row items-center justify-between mt-4'>
+        <div className='w-full flex flex-row items-center justify-between mt-4 text-slate-700'>
           {/* WEEK STOCK START */}
           <div>
             <p>Week Start: {startCountWeekly}</p>

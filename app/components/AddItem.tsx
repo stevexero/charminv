@@ -6,9 +6,13 @@ import { sanitizePositiveInteger } from '@/utils/validateInput';
 
 interface AddItemFormProps {
   subcategoryId: string;
+  subCategoryName: string;
 }
 
-export default function AddItemForm({ subcategoryId }: AddItemFormProps) {
+export default function AddItemForm({
+  subcategoryId,
+  subCategoryName,
+}: AddItemFormProps) {
   const router = useRouter();
 
   const [itemName, setItemName] = useState('');
@@ -61,6 +65,7 @@ export default function AddItemForm({ subcategoryId }: AddItemFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className='mt-4'>
+      <p className='text-slate-500'>Add new {subCategoryName}</p>
       <div className='flex flex-row items-center'>
         <input
           type='text'
