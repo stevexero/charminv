@@ -3,9 +3,8 @@ import { currentUser } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
 import { categories, users } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
-import AddCategory from './add-category';
+import AddCategory from '../components/AddCategory';
 import CategoryCard from '../components/CategoryCard';
-import Link from 'next/link';
 
 export default async function Dashboard() {
   const user = await currentUser();
@@ -24,25 +23,11 @@ export default async function Dashboard() {
 
   const userRole = dbUser[0]?.role || 'user';
 
-  console.log(userRole);
-
   return (
     <div className='p-8'>
-      <h1 className='text-2xl font-bold'>Charm Thai Kitchen & Coffee</h1>
+      {/* Breadcrumbs here */}
 
-      {/* Admin Settings Link */}
-      {userRole === 'admin' && (
-        <div className='mt-4'>
-          <Link
-            href='/dashboard/settings'
-            className='text-blue-600 font-semibold hover:underline'
-          >
-            ⚙️ Admin Settings
-          </Link>
-        </div>
-      )}
-
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-8'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 p-2'>
         {allCategories.map((category) => (
           <CategoryCard
             key={category.id}

@@ -4,9 +4,9 @@ import { categories, subcategories, items, settings } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 // import Link from 'next/link';
-import AddSubcategoryForm from './add-subcategory';
+import AddSubcategoryForm from '../../components/AddSubcategory';
 import Accordion from '@/app/components/Accordian';
-import AddItemForm from './add-item';
+import AddItemForm from '../../components/AddItem';
 import SubcategoryItem from '@/app/components/SubCategoryItem';
 
 type CategoryPageProps = {
@@ -80,19 +80,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className='p-8'>
-      <h1 className='text-3xl font-bold'>{capitalizedCategoryName}</h1>
+      <h1 className='text-3xl font-bold text-white'>
+        {capitalizedCategoryName}
+      </h1>
 
       <ClientDateTimeDisplay timestamp={new Date().toISOString()} />
 
       {/* Week Range Display */}
-      <p className='text-lg font-medium text-gray-300 mt-2'>
+      <p className='text-lg font-medium text-white mt-2'>
         Week of: {weekRange}
       </p>
 
-      <p className='text-gray-600 mt-2'>Manage items for {categoryInfo.name}</p>
+      <p className='text-white mt-2'>Manage items for {categoryInfo.name}</p>
 
       <div className='mt-8'>
-        <h2 className='text-xl font-semibold mt-6'>Subcategories</h2>
+        <h2 className='text-xl font-semibold mt-6 text-white'>Subcategories</h2>
 
         {subcategoriesData.length > 0 ? (
           <ul>
@@ -123,7 +125,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                       ))}
                     </ul>
                   ) : (
-                    <p className='text-gray-500'>No items found.</p>
+                    <p className='text-slate-500'>No items found.</p>
                   )}
                   <AddItemForm subcategoryId={subcategory.id} />
                 </Accordion>
@@ -131,10 +133,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             })}
           </ul>
         ) : (
-          <p className='text-gray-500'>No subcategories found.</p>
+          <p className='text-white'>No subcategories found.</p>
         )}
         <div className='mt-4'>
-          <p className='text-gray-500'>Add a SubCategory below:</p>
+          <p className='text-white'>Add a SubCategory below:</p>
           <AddSubcategoryForm categoryId={categoryInfo.id} />
         </div>
       </div>

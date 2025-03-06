@@ -46,12 +46,12 @@ export default function AddSubcategoryForm({
         placeholder='Subcategory name'
         value={subcategoryName}
         onChange={(e) => setSubcategoryName(e.target.value)}
-        className='p-2 border rounded w-full'
+        className='p-2 border border-white rounded w-full text-white placeholder:text-slate-300'
         required
       />
       <button
         type='submit'
-        className='p-2 bg-blue-600 text-white rounded w-full'
+        className='p-2 bg-black text-white rounded w-full'
         disabled={loading}
       >
         {loading ? 'Adding...' : 'Add Subcategory'}

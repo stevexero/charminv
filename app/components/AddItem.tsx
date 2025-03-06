@@ -67,7 +67,7 @@ export default function AddItemForm({ subcategoryId }: AddItemFormProps) {
           placeholder='Item name'
           value={itemName}
           onChange={(e) => setItemName(e.target.value)}
-          className='p-2 border rounded w-3/4'
+          className='p-2 border border-slate-500 text-slate-500 rounded w-3/4 placeholder:text-slate-500'
           required
         />
         <input
@@ -77,13 +77,13 @@ export default function AddItemForm({ subcategoryId }: AddItemFormProps) {
           onChange={sanitizeQuantity}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          className='p-2 border rounded w-1/4'
+          className='p-2 border border-slate-500 text-slate-500 rounded w-1/4 ml-4 placeholder:text-slate-500'
           required
         />
       </div>
       <button
         type='submit'
-        className='p-2 bg-blue-600 text-white rounded mt-2 w-full'
+        className='p-2 bg-black text-white rounded mt-2 w-full'
         disabled={loading}
       >
         {loading ? 'Adding...' : 'Add Item'}

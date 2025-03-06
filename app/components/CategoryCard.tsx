@@ -58,24 +58,24 @@ export default function CategoryCard({
   };
 
   return (
-    <div className='w-56 h-56'>
+    <div className='w-full h-full shadow-xl'>
       {imageSelected ? (
         <Link
           href={`/dashboard/${categoryName.toLowerCase()}`}
-          className='block w-full h-full bg-white text-black rounded-2xl cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out bg-no-repeat bg-cover bg-center'
+          className='block w-full min-h-[300px] h-full text-black cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out bg-no-repeat bg-cover bg-center'
           style={{ backgroundImage: `url(${imageUrl})` }}
         >
-          <div className='w-full p-2 border-b border-b-black bg-white rounded-t-2xl'>
+          <div className='w-full p-2 border-b border-b-black bg-white'>
             <p className='text-center font-bold'>{categoryName}</p>
           </div>
         </Link>
       ) : (
         <div
           onClick={() => setShowImagePicker(true)}
-          className='w-full h-full bg-white text-black rounded-2xl cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out bg-no-repeat bg-cover bg-center'
+          className='w-full h-full text-black cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out bg-no-repeat bg-cover bg-center'
           style={{ backgroundImage: `url(${imageUrl})` }}
         >
-          <div className='w-full p-2 border-b border-b-black bg-white rounded-t-2xl'>
+          <div className='w-full p-2 border-b border-b-black bg-white'>
             <p className='text-center font-bold'>{categoryName}</p>
           </div>
         </div>

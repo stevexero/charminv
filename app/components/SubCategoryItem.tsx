@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { FaPencilAlt } from 'react-icons/fa';
 
 interface SubcategoryItemProps {
   id: string;
@@ -90,73 +89,95 @@ export default function SubcategoryItem({
     }
   };
 
+  const formattedNameFunc = (nameToFormat: string) =>
+    nameToFormat
+      .toLowerCase()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+
+  const formattedName = formattedNameFunc(name);
+
   return (
-    <li key={id} className='flex justify-between items-center p-2 border-b'>
-      <span className='font-medium'>{name}</span>
+    <li
+      key={id}
+      className='flex justify-between items-center p-8 pb-2 text-white border border-white mt-4 bg-slate-500 rounded-md'
+    >
+      <div className='w-full flex flex-col'>
+        {/* TOP */}
+        <div className='w-full flex flex-row items-center justify-between'>
+          <div className='w-3/4'>
+            <span className='font-bold text-4xl'>{formattedName}</span>
+          </div>
 
-      {/* WEEK STOCK START */}
-      <div>
-        <p>Week Stock Start: {startCountWeekly}</p>
-      </div>
+          {/* DAILY */}
+          <div className='w-1/4 flex flex-row items-center justify-between'>
+            {/* In Count Daily */}
+            <div className='flex items-center gap-1'>
+              <span
+                className='underline text-2xl'
+                onClick={() => openModal('in')}
+              >
+                In: {inCountDaily}
+              </span>
+            </div>
 
-      {/* WEEKLY */}
-      <div>
-        <p>Week:</p>
-
-        {/* In Count Weekly */}
-        <div className='flex items-center gap-1'>
-          <span>{inCountWeekly} in</span>
+            {/* Out Count Daily */}
+            <div className='flex items-center gap-1'>
+              <span
+                className='underline text-2xl'
+                onClick={() => openModal('out')}
+              >
+                Out: {outCountDaily}
+              </span>
+            </div>
+          </div>
         </div>
 
-        {/* Out Count Weekly */}
-        <div className='flex items-center gap-1'>
-          <span>{outCountWeekly} out</span>
-        </div>
-      </div>
+        {/* BOTTOM */}
+        <div className='w-full flex flex-row items-center justify-between mt-4'>
+          {/* WEEK STOCK START */}
+          <div>
+            <p>Week Start: {startCountWeekly}</p>
+          </div>
 
-      {/* TOTAL SALE */}
-      <div>
-        <p>Week Total Out: {totalOutWeekly}</p>
-      </div>
+          {/* WEEKLY */}
+          <div className='flex flex-row items-center'>
+            <p>Week&nbsp;</p>
 
-      {/* WEEK STOCK END */}
-      <div>
-        <p>Week Stock End: {endCountWeekly}</p>
-      </div>
+            {/* In Count Weekly */}
+            <div className='flex items-center gap-1'>
+              <span>In: {inCountWeekly}</span>
+            </div>
 
-      {/* DAILY */}
-      <div>
-        <p>Day:</p>
+            {/* Out Count Weekly */}
+            <div className='flex items-center gap-1 ml-4'>
+              <span>Out: {outCountWeekly}</span>
+            </div>
+          </div>
 
-        {/* In Count Daily */}
-        <div className='flex items-center gap-1'>
-          <span>{inCountDaily} in</span>
-          <FaPencilAlt
-            className='text-gray-500 cursor-pointer hover:text-gray-700'
-            onClick={() => openModal('in')}
-          />
-        </div>
+          {/* TOTAL SALE */}
+          <div>
+            <p>Week Total Out: {totalOutWeekly}</p>
+          </div>
 
-        {/* Out Count Daily */}
-        <div className='flex items-center gap-1'>
-          <span>{outCountDaily} out</span>
-          <FaPencilAlt
-            className='text-gray-500 cursor-pointer hover:text-gray-700'
-            onClick={() => openModal('out')}
-          />
+          {/* WEEK STOCK END */}
+          <div>
+            <p>Week Stock End: {endCountWeekly}</p>
+          </div>
         </div>
       </div>
 
       {/* Modal */}
       {isModalOpen && (
-        <div className='fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 text-slate-700'>
+        <div className='fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 text-white'>
           <div className='bg-white p-6 rounded-lg shadow-lg w-80'>
-            <h2 className='text-lg font-semibold mb-4'>
+            <h2 className='text-lg font-semibold mb-4 text-black'>
               Edit {editType === 'in' ? 'In' : 'Out'} Count
             </h2>
             <input
               type='number'
-              className='w-full p-2 border rounded-md'
+              className='w-full p-2 border rounded-md text-black'
               value={editValue}
               onChange={(e) => setEditValue(Number(e.target.value))}
               min={0}
@@ -169,7 +190,7 @@ export default function SubcategoryItem({
                 Cancel
               </button>
               <button
-                className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
+                className='px-4 py-2 bg-black text-white rounded-md hover:bg-blue-700'
                 onClick={handleSubmit}
               >
                 Save

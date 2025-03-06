@@ -20,10 +20,6 @@ export function WeekStartSettingsClient({ userId }: { userId: string }) {
   const [success, setSuccess] = useState('');
   const [isNewUser, setIsNewUser] = useState(false); // ✅ Track if the setting is missing
 
-  useEffect(() => {
-    console.log(userId);
-  }, [userId]);
-
   // ✅ Fetch the user's current setting
   useEffect(() => {
     const fetchWeekStart = async () => {
@@ -107,12 +103,12 @@ export function WeekStartSettingsClient({ userId }: { userId: string }) {
 
   return (
     <div className='p-8'>
-      <h1 className='text-3xl font-bold'>Admin Settings</h1>
-      <p className='text-gray-600 mt-2'>Only admins can access this page.</p>
+      <h1 className='text-3xl font-bold text-white'>Admin Settings</h1>
+      <p className='text-white mt-2'>Only admins can access this page.</p>
 
       <div className='mt-6'>
-        <h2 className='text-xl font-semibold'>Week Start Day</h2>
-        <p className='text-gray-500 text-sm mb-2'>
+        <h2 className='text-xl font-semibold text-white'>Week Start Day</h2>
+        <p className='text-white text-sm mb-2'>
           Select the start of your week:
         </p>
 
@@ -120,7 +116,7 @@ export function WeekStartSettingsClient({ userId }: { userId: string }) {
           <select
             value={weekStart}
             onChange={(e) => setWeekStart(e.target.value)}
-            className='p-2 border rounded-md'
+            className='p-2 border border-white rounded-md text-white'
             disabled={loading}
           >
             {weekStartOptions.map((day) => (
@@ -132,7 +128,7 @@ export function WeekStartSettingsClient({ userId }: { userId: string }) {
 
           <button
             type='submit'
-            className='ml-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400'
+            className='ml-4 px-4 py-2 bg-black text-white rounded-md disabled:bg-gray-400'
             disabled={loading}
           >
             {loading ? 'Saving...' : isNewUser ? 'Create' : 'Save'}
@@ -142,7 +138,9 @@ export function WeekStartSettingsClient({ userId }: { userId: string }) {
         {success && <p className='text-sm text-green-500 mt-2'>{success}</p>}
         {error && <p className='text-sm text-red-500 mt-2'>{error}</p>}
 
-        <p className='mt-4 text-lg font-medium'>Current Week: {weekRange}</p>
+        <p className='mt-4 text-lg font-medium text-white'>
+          Current Week: {weekRange}
+        </p>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ export default function AddCategory() {
   };
 
   return (
-    <div className='w-56 flex flex-col items-center bg-white text-black rounded-2xl cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out'>
+    <div className='w-full flex flex-col items-center bg-white text-black cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out shadow-xl'>
       <div className='w-full p-2 border-b border-b-black'>
         <p className='text-center font-bold'>Add New Category</p>
       </div>
