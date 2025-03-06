@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { items, settings } from '@/lib/schema';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const daysMap: Record<string, number> = {
   sunday: 0,
@@ -40,6 +43,54 @@ export async function GET() {
     });
 
     if (shouldResetWeekly) {
+      // Fetch weekly report data before resetting
+      const weeklyReport = await db
+        .select({
+          name: items.name,
+          in_week: items.in_week,
+          out_week: items.out_week,
+          week_total_out: items.week_total_out,
+        })
+        .from(items)
+        .execute();
+
+      // Format the report as HTML
+      const reportHTML = `
+      <h2>Weekly Inventory Report</h2>
+      <table border="1" cellpadding="5">
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>In This Week</th>
+            <th>Out This Week</th>
+            <th>Total Out</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${weeklyReport
+            .map(
+              (item) => `
+            <tr>
+              <td>${item.name}</td>
+              <td>${item.in_week}</td>
+              <td>${item.out_week}</td>
+              <td>${item.week_total_out}</td>
+            </tr>
+          `
+            )
+            .join('')}
+        </tbody>
+      </table>
+    `;
+
+      // Send the email with Resend
+      await resend.emails.send({
+        from: 'CHARM INVENTORY <onboarding@resend.dev>',
+        to: 'steveanthony999@gmail.com',
+        subject: 'Charm Weekly Inventory Report',
+        html: reportHTML,
+      });
+
       await db
         .update(items)
         .set({
