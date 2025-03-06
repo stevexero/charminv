@@ -1,5 +1,6 @@
 'use client';
 
+import { sanitizePositiveInteger } from '@/utils/validateInput';
 import { useState } from 'react';
 
 interface SubcategoryItemProps {
@@ -38,7 +39,8 @@ export default function SubcategoryItem({
 
   const openModal = (type: 'in' | 'out') => {
     setEditType(type);
-    setEditValue(type === 'in' ? inCountDaily : outCountDaily);
+    // setEditValue(type === 'in' ? inCountDaily : outCountDaily);
+    setEditValue('');
     setIsModalOpen(true);
   };
 
@@ -51,12 +53,18 @@ export default function SubcategoryItem({
   const handleSubmit = async () => {
     if (editValue === '' || editType === null) return;
 
+    const newValue = Number(editValue);
+    if (isNaN(newValue) || newValue <= 0) return;
+
+    const updatedValue =
+      editType === 'in' ? inCountDaily + newValue : outCountDaily + newValue;
+
     try {
       const patchResponse = await fetch(`/api/items/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          [editType === 'in' ? 'in_day' : 'out_day']: editValue,
+          [editType === 'in' ? 'in_day' : 'out_day']: updatedValue,
         }),
       });
 
@@ -101,13 +109,13 @@ export default function SubcategoryItem({
   return (
     <li
       key={id}
-      className='flex justify-between items-center p-2 text-white border border-white mt-4 bg-slate-300 rounded-md'
+      className='flex justify-between items-center text-white mt-4 rounded-md bg-white'
     >
       <div className='w-full flex flex-col'>
         {/* TOP */}
         <div className='w-full flex flex-row items-center justify-between'>
           <div>
-            <span className='font-bold text-4xl text-slate-700'>
+            <span className='font-bold text-4xl text-slate-600'>
               {formattedName}
             </span>
           </div>
@@ -117,7 +125,7 @@ export default function SubcategoryItem({
             {/* In Count Daily */}
             <div className='flex items-center gap-1'>
               <span
-                className='mr-4 text-2xl shadow-2xl px-4 py-2 bg-green-900 rounded-md'
+                className='mr-4 text-2xl shadow-lg shadow-red-900 px-4 py-2 bg-red-600 rounded-md'
                 onClick={() => openModal('in')}
               >
                 In: {inCountDaily}
@@ -127,7 +135,7 @@ export default function SubcategoryItem({
             {/* Out Count Daily */}
             <div className='flex items-center gap-1'>
               <span
-                className='text-2xl shadow-2xl px-4 py-2 bg-green-900 rounded-md'
+                className='text-2xl shadow-lg shadow-green-900 px-4 py-2 bg-green-600 rounded-md'
                 onClick={() => openModal('out')}
               >
                 Out: {outCountDaily}
@@ -137,7 +145,7 @@ export default function SubcategoryItem({
         </div>
 
         {/* BOTTOM */}
-        <div className='w-full flex flex-row items-center justify-between mt-4 text-slate-700'>
+        <div className='w-full flex flex-row items-center justify-between mt-4 bg-white border-b border-b-slate-500 text-red-500 text-sm'>
           {/* WEEK STOCK START */}
           <div>
             <p>Week Start: {startCountWeekly}</p>
@@ -172,27 +180,37 @@ export default function SubcategoryItem({
 
       {/* Modal */}
       {isModalOpen && (
-        <div className='fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 text-white'>
-          <div className='bg-white p-6 rounded-lg shadow-lg w-80'>
-            <h2 className='text-lg font-semibold mb-4 text-black'>
+        <div className='fixed inset-0 flex items-center justify-center bg-slate-500 bg-opacity-50 text-white'>
+          <div className='bg-white p-6 rounded-lg w-80 shadow-2xl shadow-slate-900'>
+            <h2 className='text-lg font-semibold mb-4 text-slate-500'>
               Edit {editType === 'in' ? 'In' : 'Out'} Count
             </h2>
             <input
               type='number'
-              className='w-full p-2 border rounded-md text-black'
-              value={editValue}
-              onChange={(e) => setEditValue(Number(e.target.value))}
+              className='w-full p-2 border rounded-md text-black shadow-inner shadow-slate-500'
+              value={editValue === 0 ? '' : editValue}
+              //   onChange={(e) => setEditValue(Number(e.target.value))}
+              onChange={(e) => {
+                const sanitized = sanitizePositiveInteger(e.target.value);
+                setEditValue(sanitized === '' ? '' : Number(sanitized));
+              }}
+              onBlur={() => {
+                if (editValue === '' || isNaN(editValue as number)) {
+                  setEditValue(0); // Reset to 0 if input is left empty
+                }
+              }}
+              autoFocus
               min={0}
             />
             <div className='flex justify-end mt-4 gap-2'>
               <button
-                className='px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-gray-500'
+                className='px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-gray-500 shadow-md shadow-gray-600'
                 onClick={closeModal}
               >
                 Cancel
               </button>
               <button
-                className='px-4 py-2 bg-black text-white rounded-md hover:bg-blue-700'
+                className='px-4 py-2 bg-slate-500 text-white rounded-md hover:bg-slate-800 shadow-md shadow-slate-900'
                 onClick={handleSubmit}
               >
                 Save

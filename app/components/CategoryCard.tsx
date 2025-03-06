@@ -5,6 +5,7 @@ import Link from 'next/link';
 // import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import ImagePicker from './ImagePicker';
+import { capitalizeWords } from '@/utils/validateInput';
 
 interface CategoryProps {
   categoryId: string;
@@ -40,7 +41,6 @@ export default function CategoryCard({
     setShowImagePicker(false);
     setImageSelected(true);
 
-    // Send update request to the database
     const res = await fetch(`/api/categories/${categoryId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -48,7 +48,6 @@ export default function CategoryCard({
     });
 
     if (res.ok) {
-      // Give time for DB to update before refreshing
       setTimeout(() => {
         router.refresh();
       }, 500);
@@ -57,24 +56,29 @@ export default function CategoryCard({
     }
   };
 
+  const formattedCategoryName = capitalizeWords(categoryName);
+
   return (
-    <div className='w-full h-full shadow-xl'>
+    <div className='w-full h-full shadow-xl hover:shadow-2xl shadow-slate-900 hover:shadow-black transition-all duration-200 ease-in-out'>
       {imageSelected ? (
         <Link
           href={`/dashboard/${categoryName.toLowerCase()}`}
-          className='block w-full min-h-[300px] h-full text-black cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out bg-no-repeat bg-cover bg-center'
+          className='block w-full min-h-[240px] h-full text-slate-500 cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out bg-no-repeat bg-cover bg-center'
           style={{ backgroundImage: `url(${imageUrl})` }}
         >
-          <div className='w-full p-2 border-b border-b-black bg-white'>
-            <p className='text-center font-bold'>{categoryName}</p>
+          <div className='w-full p-2 border-b border-b-slate-500 bg-white'>
+            <p className='text-center font-bold'>{formattedCategoryName}</p>
           </div>
         </Link>
       ) : (
         <div
           onClick={() => setShowImagePicker(true)}
-          className='w-full h-full text-black cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out bg-no-repeat bg-cover bg-center'
+          className='w-full h-full min-h-[240px] text-black cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out bg-no-repeat bg-cover bg-center relative'
           style={{ backgroundImage: `url(${imageUrl})` }}
         >
+          <p className='w-full absolute bottom-8 text-center text-slate-500 font-bold'>
+            Click to search for an image
+          </p>
           <div className='w-full p-2 border-b border-b-black bg-white'>
             <p className='text-center font-bold'>{categoryName}</p>
           </div>

@@ -31,7 +31,7 @@ export default function ClientDateTimeDisplay({ timestamp }: Props) {
 
   return (
     <div>
-      <p className='text-lg font-medium text-gray-200 mt-2'>{formattedDate}</p>
+      <p className='text-lg font-bold text-white'>{formattedDate}</p>
     </div>
   );
 }

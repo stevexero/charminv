@@ -5,3 +5,25 @@ export const sanitizePositiveInteger = (value: string): string => {
   }
   return sanitized;
 };
+
+export const sanitizeNameForDb = (value: string | null | undefined): string => {
+  if (!value) return '';
+
+  const sanitized = value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/gi, '')
+    .replace(/\s+/g, '-');
+
+  return /^[a-z]/.test(sanitized) ? sanitized : '';
+};
+
+export const capitalizeWords = (value: string | null | undefined): string => {
+  if (!value) return '';
+
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+    .replace('-', ' ');
+};

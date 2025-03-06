@@ -3,22 +3,15 @@ import { db } from '@/lib/db';
 import { categories, subcategories, items, settings } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
-// import Link from 'next/link';
 import AddSubcategoryForm from '../../components/AddSubcategory';
 import Accordion from '@/app/components/Accordian';
 import AddItemForm from '../../components/AddItem';
 import SubcategoryItem from '@/app/components/SubCategoryItem';
+import { capitalizeWords } from '@/utils/validateInput';
 
 type CategoryPageProps = {
   params: Promise<{ category: string }>;
 };
-
-function capitalizeWords(str: string) {
-  return str
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
 
 function getWeekRange(startDay: string) {
   const weekStartOptions = [
@@ -71,27 +64,24 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const settingsData = await db.select().from(settings).execute();
   const weekStart =
-    settingsData.length > 0 ? settingsData[0].week_start : 'sunday'; // Default to Sunday
+    settingsData.length > 0 ? settingsData[0].week_start : 'sunday';
 
-  // Calculate week range based on settings
   const weekRange = getWeekRange(weekStart);
 
   const capitalizedCategoryName = capitalizeWords(categoryInfo.name);
 
   return (
-    <div className='p-8'>
-      <h1 className='text-3xl font-bold text-white'>
-        {capitalizedCategoryName}
-      </h1>
+    <div className='w-full p-8'>
+      <div className='w-full flex flex-row items-start justify-between'>
+        <h1 className='text-3xl font-bold text-white'>
+          {capitalizedCategoryName}
+        </h1>
+        <ClientDateTimeDisplay timestamp={new Date().toISOString()} />
+      </div>
 
-      <ClientDateTimeDisplay timestamp={new Date().toISOString()} />
-
-      {/* Week Range Display */}
-      <p className='text-lg font-medium text-white mt-2'>
+      <p className='text-sm font-light text-white text-right'>
         Week of: {weekRange}
       </p>
-
-      <p className='text-white mt-2'>Manage items for {categoryInfo.name}</p>
 
       <div className='mt-8'>
         <h2 className='text-xl font-semibold mt-6 text-white'>Subcategories</h2>
@@ -138,8 +128,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         ) : (
           <p className='text-white'>No subcategories found.</p>
         )}
-        <div className='mt-4'>
-          <p className='text-white'>Add a SubCategory below:</p>
+        <div className='w-full rounded-md bg-white mt-8 p-8 pt-4 shadow-2xl shadow-slate-900'>
+          <p className='text-slate-500 font-bold'>Add a SubCategory</p>
           <AddSubcategoryForm categoryId={categoryInfo.id} />
         </div>
       </div>
