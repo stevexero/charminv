@@ -12,6 +12,7 @@ import { FaGear } from 'react-icons/fa6';
 import Link from 'next/link';
 import { users } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
+import { FaHome } from 'react-icons/fa';
 
 export default async function Header() {
   const user = await currentUser();
@@ -43,14 +44,24 @@ export default async function Header() {
         <SignedIn>
           {/* Admin Settings Link */}
           {userRole === 'admin' && (
-            <div className='mr-8'>
-              <Link
-                href='/dashboard/settings'
-                className='text-blue-600 font-semibold hover:underline'
-              >
-                <FaGear color='#ffffff' size='1.6rem' />
-              </Link>
-            </div>
+            <>
+              <div className='mr-8'>
+                <Link
+                  href='/dashboard'
+                  className='font-semibold hover:underline'
+                >
+                  <FaHome color='#ffffff' size='1.6rem' />
+                </Link>
+              </div>
+              <div className='mr-8'>
+                <Link
+                  href='/dashboard/settings'
+                  className='font-semibold hover:underline'
+                >
+                  <FaGear color='#ffffff' size='1.6rem' />
+                </Link>
+              </div>
+            </>
           )}
           <UserButton />
         </SignedIn>
