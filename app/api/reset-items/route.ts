@@ -86,7 +86,7 @@ export async function GET() {
       // Send the email with Resend
       await resend.emails.send({
         from: 'CHARM INVENTORY <onboarding@resend.dev>',
-        to: 'steveanthony999@gmail.com',
+        to: 'charmoffice999@gmail.com',
         subject: 'Charm Weekly Inventory Report',
         html: reportHTML,
       });
