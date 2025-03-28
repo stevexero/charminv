@@ -64,6 +64,7 @@ export async function GET() {
             <th>In This Week</th>
             <th>Out This Week</th>
             <th>Total Out</th>
+            <th>Leftover Stock</th>
           </tr>
         </thead>
         <tbody>
@@ -75,6 +76,7 @@ export async function GET() {
               <td>${item.in_week}</td>
               <td>${item.out_week}</td>
               <td>${item.week_total_out}</td>
+              <td>${item.in_week - item.week_total_out}</td>
             </tr>
           `
             )
