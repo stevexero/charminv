@@ -50,6 +50,7 @@ export async function GET() {
           in_week: items.in_week,
           out_week: items.out_week,
           week_total_out: items.week_total_out,
+          week_start: items.week_start,
         })
         .from(items)
         .execute();
@@ -76,7 +77,7 @@ export async function GET() {
               <td>${item.in_week}</td>
               <td>${item.out_week}</td>
               <td>${item.week_total_out}</td>
-              <td>${item.in_week - item.week_total_out}</td>
+              <td>${item.week_start - item.week_total_out}</td>
             </tr>
           `
             )
