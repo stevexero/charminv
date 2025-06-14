@@ -13,6 +13,20 @@ interface SubcategoryItemProps {
   weekStart: number;
   weekEnd: number;
   totalOutWeek: number;
+  mondayIn: number;
+  mondayOut: number;
+  tuesdayIn: number;
+  tuesdayOut: number;
+  wednesdayIn: number;
+  wednesdayOut: number;
+  thursdayIn: number;
+  thursdayOut: number;
+  fridayIn: number;
+  fridayOut: number;
+  saturdayIn: number;
+  saturdayOut: number;
+  sundayIn: number;
+  sundayOut: number;
 }
 
 export default function SubcategoryItem({
@@ -25,6 +39,20 @@ export default function SubcategoryItem({
   weekStart,
   weekEnd,
   totalOutWeek,
+  mondayIn,
+  mondayOut,
+  tuesdayIn,
+  tuesdayOut,
+  wednesdayIn,
+  wednesdayOut,
+  thursdayIn,
+  thursdayOut,
+  fridayIn,
+  fridayOut,
+  saturdayIn,
+  saturdayOut,
+  sundayIn,
+  sundayOut,
 }: SubcategoryItemProps) {
   const [inCountDaily, setInCountDaily] = useState(inDay);
   const [outCountDaily, setOutCountDaily] = useState(outDay);
@@ -36,6 +64,21 @@ export default function SubcategoryItem({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editType, setEditType] = useState<'in' | 'out' | null>(null);
   const [editValue, setEditValue] = useState<number | ''>('');
+  // Daily
+  const [inCountMonday, setInCountMonday] = useState(mondayIn);
+  const [outCountMonday, setOutCountMonday] = useState(mondayOut);
+  const [inCountTuesday, setInCountTuesday] = useState(tuesdayIn);
+  const [outCountTuesday, setOutCountTuesday] = useState(tuesdayOut);
+  const [inCountWednesday, setInCountWednesday] = useState(wednesdayIn);
+  const [outCountWednesday, setOutCountWednesday] = useState(wednesdayOut);
+  const [inCountThursday, setInCountThursday] = useState(thursdayIn);
+  const [outCountThursday, setOutCountThursday] = useState(thursdayOut);
+  const [inCountFriday, setInCountFriday] = useState(fridayIn);
+  const [outCountFriday, setOutCountFriday] = useState(fridayOut);
+  const [inCountSaturday, setInCountSaturday] = useState(saturdayIn);
+  const [outCountSaturday, setOutCountSaturday] = useState(saturdayOut);
+  const [inCountSunday, setInCountSunday] = useState(sundayIn);
+  const [outCountSunday, setOutCountSunday] = useState(sundayOut);
 
   const openModal = (type: 'in' | 'out') => {
     setEditType(type);
@@ -59,12 +102,84 @@ export default function SubcategoryItem({
     const updatedValue =
       editType === 'in' ? inCountDaily + newValue : outCountDaily + newValue;
 
+    // Get current day of week
+    const days = [
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
+    ];
+    const today = days[new Date().getDay()];
+    const todayInKey = `${today}_in`;
+    const todayOutKey = `${today}_out`;
+
+    console.log('Today:', today);
+    console.log('Keys:', todayInKey, todayOutKey);
+
+    // Get current day's state value
+    let currentDayValue = 0;
+    if (editType === 'in') {
+      switch (today) {
+        case 'monday':
+          currentDayValue = inCountMonday;
+          break;
+        case 'tuesday':
+          currentDayValue = inCountTuesday;
+          break;
+        case 'wednesday':
+          currentDayValue = inCountWednesday;
+          break;
+        case 'thursday':
+          currentDayValue = inCountThursday;
+          break;
+        case 'friday':
+          currentDayValue = inCountFriday;
+          break;
+        case 'saturday':
+          currentDayValue = inCountSaturday;
+          break;
+        case 'sunday':
+          currentDayValue = inCountSunday;
+          break;
+      }
+    } else {
+      switch (today) {
+        case 'monday':
+          currentDayValue = outCountMonday;
+          break;
+        case 'tuesday':
+          currentDayValue = outCountTuesday;
+          break;
+        case 'wednesday':
+          currentDayValue = outCountWednesday;
+          break;
+        case 'thursday':
+          currentDayValue = outCountThursday;
+          break;
+        case 'friday':
+          currentDayValue = outCountFriday;
+          break;
+        case 'saturday':
+          currentDayValue = outCountSaturday;
+          break;
+        case 'sunday':
+          currentDayValue = outCountSunday;
+          break;
+      }
+    }
+
+    console.log('Current day value:', currentDayValue);
+
     try {
       const patchResponse = await fetch(`/api/items/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           [editType === 'in' ? 'in_day' : 'out_day']: updatedValue,
+          [editType === 'in' ? todayInKey : todayOutKey]: updatedValue,
         }),
       });
 
@@ -74,6 +189,8 @@ export default function SubcategoryItem({
         console.error('Error updating item:', patchData.error);
         return;
       }
+
+      console.log('Patch data:', patchData);
 
       const getResponse = await fetch(`/api/items/${id}`);
       const updatedItem = await getResponse.json();
@@ -90,6 +207,22 @@ export default function SubcategoryItem({
       setStartCountWeekly(updatedItem.week_start);
       setEndCountWeekly(updatedItem.week_end);
       setTotalOutWeekly(updatedItem.week_total_out);
+
+      // Daily
+      setInCountMonday(updatedItem.monday_in);
+      setOutCountMonday(updatedItem.monday_out);
+      setInCountTuesday(updatedItem.tuesday_in);
+      setOutCountTuesday(updatedItem.tuesday_out);
+      setInCountWednesday(updatedItem.wednesday_in);
+      setOutCountWednesday(updatedItem.wednesday_out);
+      setInCountThursday(updatedItem.thursday_in);
+      setOutCountThursday(updatedItem.thursday_out);
+      setInCountFriday(updatedItem.friday_in);
+      setOutCountFriday(updatedItem.friday_out);
+      setInCountSaturday(updatedItem.saturday_in);
+      setOutCountSaturday(updatedItem.saturday_out);
+      setInCountSunday(updatedItem.sunday_in);
+      setOutCountSunday(updatedItem.sunday_out);
 
       closeModal();
     } catch (error) {
@@ -145,7 +278,108 @@ export default function SubcategoryItem({
         </div>
 
         {/* BOTTOM */}
-        <div className='w-full flex flex-row items-center justify-between mt-4 bg-white border-b border-b-slate-500 text-red-500 text-sm'>
+        <div className='w-full flex flex-row items-center justify-between mt-4 bg-white text-blue-500 text-sm'>
+          {/* DAILY */}
+          <div className='flex flex-col'>
+            <p className='font-bold'>Monday</p>
+            <div className='grid grid-cols-1'>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>In:&nbsp;</p>
+                <p>{inCountMonday}</p>
+              </div>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>Out:&nbsp;</p>
+                <p>{outCountMonday}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className='flex flex-col'>
+            <p className='font-bold'>Tuesday</p>
+            <div className='grid grid-cols-1'>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>In:&nbsp;</p>
+                <p>{inCountTuesday}</p>
+              </div>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>Out:&nbsp;</p>
+                <p>{outCountTuesday}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className='flex flex-col'>
+            <p className='font-bold'>Wednesday</p>
+            <div className='grid grid-cols-1'>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>In:&nbsp;</p>
+                <p>{inCountWednesday}</p>
+              </div>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>Out:&nbsp;</p>
+                <p>{outCountWednesday}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className='flex flex-col'>
+            <p className='font-bold'>Thursday</p>
+            <div className='grid grid-cols-1'>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>In:&nbsp;</p>
+                <p>{inCountThursday}</p>
+              </div>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>Out:&nbsp;</p>
+                <p>{outCountThursday}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className='flex flex-col'>
+            <p className='font-bold'>Friday</p>
+            <div className='grid grid-cols-1'>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>In:&nbsp;</p>
+                <p>{inCountFriday}</p>
+              </div>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>Out:&nbsp;</p>
+                <p>{outCountFriday}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className='flex flex-col'>
+            <p className='font-bold'>Saturday</p>
+            <div className='grid grid-cols-1'>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>In:&nbsp;</p>
+                <p>{inCountSaturday}</p>
+              </div>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>Out:&nbsp;</p>
+                <p>{outCountSaturday}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className='flex flex-col'>
+            <p className='font-bold'>Sunday</p>
+            <div className='grid grid-cols-1'>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>In:&nbsp;</p>
+                <p>{inCountSunday}</p>
+              </div>
+              <div className='flex flex-row items-center justify-between gap-1'>
+                <p>Out:&nbsp;</p>
+                <p>{outCountSunday}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className='w-full flex flex-row items-center justify-between mt-2 bg-white border-b border-b-slate-500 text-red-500 text-sm'>
           {/* WEEK STOCK START */}
           <div>
             <p>Week Start: {startCountWeekly}</p>
