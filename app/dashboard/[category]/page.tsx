@@ -111,6 +111,20 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                           weekStart={item.week_start}
                           weekEnd={item.week_end}
                           totalOutWeek={item.week_total_out}
+                          mondayIn={item.monday_in}
+                          mondayOut={item.monday_out}
+                          tuesdayIn={item.tuesday_in}
+                          tuesdayOut={item.tuesday_out}
+                          wednesdayIn={item.wednesday_in}
+                          wednesdayOut={item.wednesday_out}
+                          thursdayIn={item.thursday_in}
+                          thursdayOut={item.thursday_out}
+                          fridayIn={item.friday_in}
+                          fridayOut={item.friday_out}
+                          saturdayIn={item.saturday_in}
+                          saturdayOut={item.saturday_out}
+                          sundayIn={item.sunday_in}
+                          sundayOut={item.sunday_out}
                         />
                       ))}
                     </ul>
