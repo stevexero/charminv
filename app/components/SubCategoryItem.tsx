@@ -104,13 +104,13 @@ export default function SubcategoryItem({
 
     // Get current day of week
     const days = [
+      'sunday',
       'monday',
       'tuesday',
       'wednesday',
       'thursday',
       'friday',
       'saturday',
-      'sunday',
     ];
     const today = days[new Date().getDay()];
     const todayInKey = `${today}_in`;

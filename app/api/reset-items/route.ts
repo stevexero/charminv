@@ -51,6 +51,20 @@ export async function GET() {
           out_week: items.out_week,
           week_total_out: items.week_total_out,
           week_start: items.week_start,
+          monday_in: items.monday_in,
+          monday_out: items.monday_out,
+          tuesday_in: items.tuesday_in,
+          tuesday_out: items.tuesday_out,
+          wednesday_in: items.wednesday_in,
+          wednesday_out: items.wednesday_out,
+          thursday_in: items.thursday_in,
+          thursday_out: items.thursday_out,
+          friday_in: items.friday_in,
+          friday_out: items.friday_out,
+          saturday_in: items.saturday_in,
+          saturday_out: items.saturday_out,
+          sunday_in: items.sunday_in,
+          sunday_out: items.sunday_out,
         })
         .from(items)
         .execute();
@@ -66,6 +80,20 @@ export async function GET() {
             <th>Out This Week</th>
             <th>Total Out</th>
             <th>Leftover Stock</th>
+            <th>Monday In</th>
+            <th>Monday Out</th>
+            <th>Tuesday In</th>
+            <th>Tuesday Out</th>
+            <th>Wednesday In</th>
+            <th>Wednesday Out</th>
+            <th>Thursday In</th>
+            <th>Thursday Out</th>
+            <th>Friday In</th>
+            <th>Friday Out</th>
+            <th>Saturday In</th>
+            <th>Saturday Out</th>
+            <th>Sunday In</th>
+            <th>Sunday Out</th>
           </tr>
         </thead>
         <tbody>
@@ -78,6 +106,20 @@ export async function GET() {
               <td>${item.out_week}</td>
               <td>${item.week_total_out}</td>
               <td>${item.week_start - item.week_total_out}</td>
+              <td>${item.monday_in}</td>
+              <td>${item.monday_out}</td>
+              <td>${item.tuesday_in}</td>
+              <td>${item.tuesday_out}</td>
+              <td>${item.wednesday_in}</td>
+              <td>${item.wednesday_out}</td>
+              <td>${item.thursday_in}</td>
+              <td>${item.thursday_out}</td>
+              <td>${item.friday_in}</td>
+              <td>${item.friday_out}</td>
+              <td>${item.saturday_in}</td>
+              <td>${item.saturday_out}</td>
+              <td>${item.sunday_in}</td>
+              <td>${item.sunday_out}</td>
             </tr>
           `
             )
@@ -101,6 +143,20 @@ export async function GET() {
           in_week: 0,
           out_week: 0,
           week_total_out: 0,
+          monday_in: 0,
+          monday_out: 0,
+          tuesday_in: 0,
+          tuesday_out: 0,
+          wednesday_in: 0,
+          wednesday_out: 0,
+          thursday_in: 0,
+          thursday_out: 0,
+          friday_in: 0,
+          friday_out: 0,
+          saturday_in: 0,
+          saturday_out: 0,
+          sunday_in: 0,
+          sunday_out: 0,
         })
         .execute();
 
